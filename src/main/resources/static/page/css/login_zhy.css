@@ -1,0 +1,128 @@
+*{
+    margin:0;
+    padding:0;
+}
+html,body{
+    width: 100%;
+    height:100%;
+}
+.login-page{
+    height: 100%;
+    width: 100%;
+    background-image: url(../../page/img/login/bg.png);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-family: "Microsoft YaHei";
+}
+.login-page-img{
+    height: 100%;
+    background-image: url(../../page/img/login/img.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 50%;
+
+}
+.login-page-content{
+    margin-left: 58%;
+    width: 42%;
+    height:100%;
+}
+.login-page-form{
+    height: 100%;
+    padding: 30% 0;
+    position: relative;
+}
+.login-page-logo{
+    background-image: url(../../page/img/login/logo.png);
+    height: 34px;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 100%;
+}
+/*.login-form-div{*/
+/*height:100%;*/
+/*padding-top: 50px;*/
+/*}*/
+.login-form-div{
+    height: 400px;
+    padding-top: 50px;
+}
+#loginForm{
+    width: 65%;
+    background-color: #fff;
+    opacity: 0.7;
+    border-radius: 15px;
+    height: 100%;
+    position: relative;
+}
+.login-form-text{
+    text-align: center;
+    color: #494947;
+    font-size: 30px;
+    position: absolute;
+    width: 100%;
+    height: 80px;
+    line-height: 80px;
+}
+/*.login-form-groups{*/
+/*height:100%;*/
+/*padding-top: 80px;*/
+/*}*/
+.login-form-groups{
+    height: 100%;
+    padding-top: 40px;
+}
+.login-form-groups>.form-group{
+    height: 13%;
+    margin-bottom: 5%;
+}
+.login-form-groups>.from-button{
+    margin-top: 10%;
+    margin-bottom: 1%;
+}
+#loginForm input{
+    border: 1px solid #818584;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+    background-position: 5px 50%;
+    width: 75%;
+    margin: auto;
+    height: 100%;
+}
+#tenant{
+    background-image: url(../../page/img/login/tenant.png);
+}
+#password{
+    background-image: url(../../page/img/login/password.png);
+}
+#username{
+    background-image: url(../../page/img/login/phone.png);
+}
+#submitBtn{
+    background: #5970b6;
+    font-size: 16px;
+    height: 100%;
+    width: 75%;
+    margin: auto;
+}
+.register-button{
+    font-size: 12px;
+    font-family: "SimSun";
+    color: #808485;
+    position: relative;
+    top: -10px;
+    left: -35px;
+}
+.footer{
+    font-size: 12px;
+    color:#808485;
+    line-height:30px;
+    position: absolute;
+    width: 100%;
+    height:30px;
+    bottom: 0px;
+
+}
+.error-message{
+    color: #e60d0d;
+}

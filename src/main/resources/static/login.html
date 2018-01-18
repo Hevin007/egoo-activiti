@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- Favicon.ico -->
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <!-- Bootstrap Core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+
+    <link href="page/css/login.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="section login-page">
+    <div class="login-page-img">
+    <div class="login-page-content">
+        <div class="login-page-form">
+            <div class="login-page-logo"></div>
+            <div class="login-form-div">
+                <form id="loginForm" class="form-horizontal" role="form" method="post" action="/loginValidate" autocomplete="off" >
+                <div class="login-form-text">登&nbsp;录</div>
+                <div class="login-form-groups">
+                    <div  >
+                        <div class="col-sm-offset-2 col-sm-8">
+                            <input type="text" class="form-control" style="display:none;" placeholder="userId" name="userId"
+                                   id="userId"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="租户ID" id="tenant" value="default" style="display: block"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="用户名" id="username" name="username"/>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="密码" name="password" id="password"/>
+                    </div>
+
+                    <div class="form-group from-button">
+                        <button type="button" class="btn btn-default btn-primary btn-block" id="submitBtn">登&nbsp;&nbsp;录</button>
+                    </div>
+
+                    <!--<div >-->
+                        <!--<p id="errorMsg" class="text-center error-message" th:if="!${param.error}">-->
+                        <!--</p>-->
+                        <!--<p class="text-center error-message" th:if="${param.error}">-->
+                            <!--用户名或密码错误-->
+                        <!--</p>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-offset-2 col-sm-8">-->
+                        <!--<a class="register-button">新用户注册</a>-->
+                    <!--</div>-->
+                </div>
+            </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="text-center footer" style="">产品最终版本归上海易谷网络科技有限公司所有，在未经任何授权下使用本公司将依法追究到底。</div>
+    </div>
+</div>
+
+
+
+
+<!-- jQuery -->
+<script src="vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Customer JavaScript -->
+<script src="page/js/login.js"></script>
+
+</body>
+</html>

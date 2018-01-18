@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模型管理</title>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <link rel="stylesheet" href="lib.css/bootstrap.min.css">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!--<link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">-->
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+        .content {
+            margin: 40px auto;
+            padding: 0 40px;
+        }
+        .tab-content {
+
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-top: none;
+            min-height: 200px;
+        }
+    </style>
+    <script src="lib/js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+<div class="content">
+    <div id="top" style="overflow: hidden;">
+        <div  style="float:right;margin-right:20px;font-size: 16px;color:#666;">
+            <i class="fa fa-user-o"></i>&nbsp;
+            <span id="username"></span>
+            |<a href="/">注销</a>
+        </div>
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a href="#model-tab" data-toggle="tab">模型列表</a></li>
+        <li role="presentation"><a href="#deployment-tab" data-toggle="tab">部署列表</a></li>
+
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane fade active in" id="model-tab">
+
+            <h2>模型列表</h2>
+            <a href="javascript: AJAX.POST('/models/newModel')"
+               class="btn btn-primary" style="margin-bottom: 10px;">新建流程</a>
+            <table id="model-list" class="table table-bordered ">
+                <tr>
+                    <td>模型编号</td>
+                    <td>模型名称</td>
+                    <td>版本</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+                <script id="models" type="text/html">
+                    <tr>
+                        <td>模型编号</td>
+                        <td>模型名称</td>
+                        <td>版本</td>
+                        <td>创建时间</td>
+                        <td>操作</td>
+                    </tr>
+                    {{each rows.list}}
+                    <tr>
+                        <td>{{$value.id}}</td>
+                        <td>{{$value.name}}</td>
+                        <td>{{$value.version}}</td>
+                        <td>{{$value.createTime}}</td>
+                        <td>
+                            <a href="/modeler.html?modelId={{$value.id}}">编辑</a>&nbsp;|
+                            <a href="javascript: AJAX.DELETE('/models/{{$value.id}}')">删除</a>&nbsp;|
+                            <a href="javascript: AJAX.POST('/models/{{$value.id}}/deployment')">发布</a>&nbsp;|
+                            <a href="javascript: void(0);" onclick="modelList.downloadXML(event)" data-url="/service/model/{{$value.id}}/importXML">导出XML</a>
+
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="deployment-tab">
+            <h2>部署列表</h2>
+
+            <table id="deployment-list" class="table table-bordered">
+
+                <script id="deployments" type="text/html">
+                    <tr>
+                        <td>编号</td>
+                        <td>名称</td>
+                        <td>部署时间</td>
+                        <td>操作</td>
+                    </tr>
+                    {{each rows.list}}
+                    <tr>
+                        <td>{{$value.id}}</td>
+                        <td>{{$value.name}}</td>
+                        <td>{{$value.deploymentTime}}</td>
+                        <td>
+                            <!--<a href="javascript: AJAX.DELETE('/deployments/{{$value.id}}',null, delDeployment)">删除</a>&nbsp;|-->
+                            <a href="javascript: void(0)" data-id="{{$value.id}}" onclick="modelList.delDeployment(event)">删除</a>&nbsp;|
+                            <a href="/service/model/{{$value.id}}/run" target="_blank">启动实例</a>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="/lib/js/bootstrap.min.js"></script>
+<script src="/lib/js/template.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+
+<script>
+    var modelList = {
+        downloadXML: function (event) {
+            event = event || window.event;
+            var target = event.target || event.srcElement;
+
+            var url = target.dataset.url;
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: 'xml',
+                success: function (data) {
+                    const a = document.createElement('a');
+                    a.setAttribute('href', url);
+                    a.click();
+                },
+                error: function () {
+                    alert("模型数据为空，请先设计流程并成功保存，再进行导出。")
+                }
+            })
+        },
+        delDeployment: function (event) {
+
+            event = event || window.event;
+            var target = event.target || event.srcElement;
+            $.ajax({
+                url: '/deployments/' + target.dataset.id,
+                type: "delete",
+                success: function (result) {
+                    if (result.status == "000") {
+                        var tr = target.parentNode.parentNode;
+                        var table = tr.parentNode;
+                        table.removeChild(tr);
+                    } else {
+                        console.log("delete deployment error");
+                    }
+                },
+
+            })
+        },
+        initData: function() {
+            modelList.initUser();
+            AJAX.GET("/models", null
+                    , function (result) {
+
+                        result.rows.list.forEach(function(ele) {
+                            ele.createTime = new Date(ele.createTime).toLocaleString();
+                        });
+                        var html = template("models", result);
+                        $("#model-list").html(html);
+                    });
+
+            AJAX.GET("/deployments", null
+                    , function (result) {
+                        result.rows.list.forEach(function(ele) {
+                            ele.deploymentTime = new Date(ele.deploymentTime).toLocaleString();
+                        });
+                        var html = template("deployments", result);
+                        $("#deployment-list").html(html);
+                    });
+        },
+
+        getCookie: function(name) {
+            var arr;
+            var reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+            if( arr = document.cookie.match(reg) ) {
+                return arr[2];
+            }else {
+                return null;
+            }
+        },
+
+        initUser: function() {
+            var username = modelList.getCookie("username") || '请登录';
+            $("#username").html(username);
+        }
+    }
+
+
+    $(function () {
+        modelList.initData();
+    })
+</script>
+</body>
+</html>

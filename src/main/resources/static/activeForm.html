@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>动态表单</title>
+
+    <link rel="stylesheet" href="lib.css/bootstrap.min.css">
+    <!--<link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">-->
+    <style>
+
+
+        .content {
+
+        }
+
+        .wrap {
+            padding: 0 20px 20px 20px;
+            width: 600px;
+            margin: 80px auto;
+            border: solid 1px #bbb;
+            border-radius: 4px;
+        }
+        .form-content {
+            padding: 20px 0;
+            margin: 20px 0;
+            border-top: solid 1px #ddd;
+            border-bottom: solid 1px #ddd;
+        }
+
+        .form-content > label {
+            width: 100%;
+        }
+
+
+    </style>
+    <script src="lib/js/jquery-1.10.2.min.js"></script>
+</head>
+<body>
+
+<div class="content">
+    <div class="wrap">
+        <h2>输入下列信息：</h2>
+
+        <form>
+            <div class="form-content">
+                <div class="form-group">
+                    <label for="word">
+                        输入文字：
+                    </label>
+                    <input type="text" id="word">
+                </div>
+                <div class="form-group">
+                    <label for="word">
+                        输入日期：
+                    </label>
+                    <input type="date" id="date" value="2017-01-01">
+
+                </div>
+                <div class="form-group">
+
+                    <label for="bool">
+                        真或假：
+                    </label>
+                    <select id="bool">
+                        <option>真</option>
+                        <option>假</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    枚举值：
+                </div>
+                <label>值1
+                    <input type="checkbox" value="值1" name="enum">
+                </label>
+                <label>值2
+                    <input type="checkbox">
+                </label>
+                <label>值3
+                    <input type="checkbox">
+                </label>
+            </div>
+
+            <div style="margin: 0 auto; width: 120px;">
+
+                <input type="submit" class="btn btn-primary">
+                <input type="reset" class="btn btn-default">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-alpha.20/polyfill.js"></script>
+
+<script src="./lib/js/bootstrap.min.js"></script>
+<script src="./js/loadActiveForm.js"></script>
+</body>
+</html>
