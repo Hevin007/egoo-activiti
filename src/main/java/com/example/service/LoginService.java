@@ -21,22 +21,25 @@ public class LoginService {
     @Autowired
     private IdentityService identityService;
     @RequestMapping( method = RequestMethod.POST)
-    public String validateUser(String username, String password, HttpServletResponse response) {
+    public void validateUser(String username, String password, HttpServletResponse response) throws Exception {
+        // 这里的username其实是userId
         try {
-            User user = identityService.createUserQuery().userId(username).singleResult();
+            String userId = username;
+            User user = identityService.createUserQuery().userId(userId).singleResult();
 
             if(user.getPassword().equals(password)) {
-                response.addCookie(new Cookie("username", username));
+                response.addCookie(new Cookie("userId", userId));
                 response.sendRedirect("/model-list.html");
-
-                return "success";
+// TODO: 2018/1/21  返回值调整
+                return;
             }else {
-
-                return "password error";
+                response.sendRedirect("/");
+                return ;
             }
         }catch (Exception e) {
+            response.sendRedirect("/");
             System.out.println(e);
-            return "username error";
+            return;
         }
 
 

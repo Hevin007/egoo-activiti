@@ -12,6 +12,7 @@ import org.activiti.engine.form.FormData;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.impl.form.LongFormType;
+import org.activiti.engine.impl.util.json.JSONObject;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -22,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,15 +33,14 @@ import java.util.Map;
 /**
  * Created by Hevin on 2018/1/19.
  */
-@RestController
-@RequestMapping("service")
-public class TaskService {
+@Controller
+public class ModelerService {
     @Autowired
     private RepositoryService repositoryService;
     @Autowired
     private RuntimeService runtimeService;
     @Autowired
-    private org.activiti.engine.TaskService taskService;
+    private TaskService taskService;
     @Autowired
     private FormService formService;
     @Autowired
@@ -47,7 +48,7 @@ public class TaskService {
     @Autowired
     private IdentityService identityService;
 
-    @RequestMapping(value = "/model/{modelId}/importXML", method = RequestMethod.GET)
+    @RequestMapping("service/model/{modelId}/importXML")
     public Object download(@PathVariable String modelId, @RequestHeader HttpHeaders requestHeaders) throws Exception {
 
 
@@ -86,12 +87,13 @@ public class TaskService {
 
     }
 
-    @RequestMapping(value = "/model/{deploymentId}/run", method = RequestMethod.GET)
-    public Object runProcess(@PathVariable String deploymentId) throws Exception {
+    @RequestMapping("service/model/{deploymentId}/run")
+    public void runProcess(@PathVariable String deploymentId) throws Exception {
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
                 .deploymentId(deploymentId).singleResult();
         ProcessInstance processInstance = runtimeService
                 .startProcessInstanceByKey(processDefinition.getKey());
+
         System.out.println(
                 "Found process definition ["
                         + processDefinition.getName() + "] with id ["
@@ -162,7 +164,5 @@ public class TaskService {
 
         }
 
-
-        return null;
     }
 }

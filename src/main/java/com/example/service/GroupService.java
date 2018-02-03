@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @RequestMapping("group")
 public class GroupService {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(GroupService.class);
 
     @Autowired
     private IdentityService identityService;

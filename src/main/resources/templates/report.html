@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  user-scalable=0" name="viewport"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <title>动态表单</title>
+    <script src="/lib/js/jquery.min.js"></script>
+    <link href="/lib/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/lib/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-polyfill/7.0.0-alpha.20/polyfill.js"></script>
+    <script th:inline="javascript">
+        // 通过模板注入data信息
+        var data = /*[[${data}]]*/ undefined;
+    </script>
+    <script th:src="@{/js/report.js}" src="../static/js/report.js"></script>
+    <style>
+        .myInput {
+            border: none;
+            height: 40px;
+            margin-left: 20px;
+            width: 70%;
+        }
+
+        .label-name {
+            text-align: right;
+            width: 100px;
+        }
+        .label-item {
+            margin-left: 20px;
+        }
+        .content-form {
+            float: right;width: 60%;
+        }
+        .content-history {
+            width: 38%;
+            min-height: 200px;
+            float:left;
+
+        }
+
+        .variable-name {
+            text-align: right;
+            display:inline-block;
+            font-weight: bold;
+            width: 25%;
+        }
+        .variable-value {
+            display: inline-block; width: 60%; margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div style="overflow:hidden; padding: 40px;">
+    <div class="content-form">
+        <form method="post" action="/submitTaskForm" role="form"  id="form" enctype="multipart/form-data">
+            <input type="text" name="userId" th:value="${userId}" style="display: none;"/>
+            <input type="text" name="taskId" th:value="${taskId}" style="display: none;"/>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <h3>填写表单信息</h3>
+                </li>
+                <div class="form-content">
+
+                </div>
+                <!--todo 图片配置上传-->
+                <li class="list-group-item" style="margin-top: -1px;">
+                    <label for="attachment" class="label-name">图片附件</label>
+                    <input id="attachment" type="file" name="attachment"  class="myInput" accpet="image/*"/>
+                </li>
+
+                <li class="list-group-item" style="margin-top: -1px;">
+
+                    <input type="submit" class="btn btn-primary" style="display: block; width: 200px; margin: 0 auto;"  value="提交"/>
+
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div  class="content-history">
+        <ul class="list-group" id="variable-list">
+            <li class="list-group-item">
+                <h3>任务输入历史</h3>
+            </li>
+            <li class="list-group-item" >
+                <span class="variable-name"></span>
+                <span class="variable-value">无输入历史</span>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">附件</h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+</body>
+</html>

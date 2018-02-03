@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
     <title>模型管理</title>
     <meta http-equiv="cache-control" content="no-cache"/>
-    <link rel="stylesheet" href="./lib/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/lib/css/bootstrap.min.css"/>
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
     <!--<link href="https://cdn.bootcss.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">-->
     <style>
@@ -24,7 +24,7 @@
             min-height: 200px;
         }
     </style>
-    <script src="./lib/js/jquery-1.10.2.min.js"></script>
+    <script src="/lib/js/jquery-1.10.2.min.js"></script>
 </head>
 <body>
 <div class="content">
@@ -74,6 +74,33 @@
 
                 </script>
 
+                <tr>
+                    <td>模型编号</td>
+                    <td>模型名称</td>
+                    <td>版本</td>
+                    <td>创建时间</td>
+                    <td>操作</td>
+                </tr>
+
+
+
+
+                <tr th:each="model:${models}">
+                    <td th:text="${model.id}"></td>
+                    <td th:text="${model.name}"></td>
+                    <td th:text="${model.version}"></td>
+                    <!--<td th:text="${model.createTime}"></td>-->
+                    <td th:text="${#dates.format(model.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                    <td>
+                        <a th:href="|/modeler.html?modelId=${model.id}|">编辑</a>&nbsp;|
+                        <a th:href="|javascript: AJAX.DELETE('/models/${model.id}');|">删除</a>&nbsp;|
+                        <a th:href="|javascript: AJAX.POST('/models/${model.id}/deployment')|">发布</a>&nbsp;|
+                        <a href="javascript: void(0);" onclick="modelList.downloadXML(event)"
+                           th:attr="data-url=@{|/service/model/${model.id}/importXML|}" >导出XML</a>
+                        <!--th:attr="data-url=/service/model/${model.id}/importXML" >导出XML</a>-->
+                    </td>
+                </tr>
+
             </table>
         </div>
         <div class="tab-pane fade" id="deployment-tab">
@@ -113,7 +140,6 @@
                         <td>ID</td>
                         <td>流程定义名称</td>
                         <td>当前任务ID</td>
-                        <td>操作</td>
                     </tr>
                     {{each data}}
                     <tr>
@@ -121,9 +147,7 @@
                         <td>{{$value.processDefinitionName}}</td>
 
                         <td>{{$value.currentActivityId}}</td>
-                        <td>
 
-                        </td>
                     </tr>
                     {{/each}}
                 </script>
@@ -149,9 +173,7 @@
                         <td>{{$value.assignee}}</td>
                         <td>date</td>
                         <td>
-
-                            <a href="javascript: void(0);" data-id="{{$value.id}}" onclick="modelList.claimTask(event)">领取任务</a>&nbsp;|
-                            <a href="/form/{{$value.id}}"  target="_blank" onclick="window.location.reload()">进行任务</a>
+                            <a href="/form/{{$value.id}}"  target="_blank" >进行任务</a>
                         </td>
                     </tr>
                     {{/each}}
@@ -162,11 +184,12 @@
 
 </div>
 
-<script src="./lib/js/bootstrap.min.js"></script>
-<script src="./lib/js/template.js"></script>
-<script src="./lib/js/jquery.cookie.js"></script>
-<script src="./js/ajax-util.js"></script>
-<script src="./js/model-list.js"></script>
+
+<script src="/lib/js/bootstrap.min.js"></script>
+<script src="/lib/js/template.js"></script>
+<script src="/lib/js/jquery.cookie.js"></script>
+<script src="/js/ajax-util.js"></script>
+<script src="/js/model-list.js"></script>
 
 </body>
 </html>
